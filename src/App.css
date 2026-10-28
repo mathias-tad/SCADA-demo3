@@ -1,5 +1,14 @@
 /* Airbnb-Styled EEMACS User Management CSS */
 
+:root {
+  --scada-blue: #2058a8;
+  --scada-blue-hover: #174280;
+  --scada-navy: #0e2b5c;
+  --scada-slate: #5a6b82;
+  --scada-border: #d0d7de;
+  --scada-bg-light: #f4f6f9;
+}
+
 /* ROOT CONTAINER */
 .airbnb-app-root {
   width: 100%;
@@ -1263,10 +1272,15 @@
 }
 
 .scada-nav-btn.btn-active {
-  background: var(--scada-blue);
-  color: #FFFFFF;
-  border-color: var(--scada-blue);
+  background: #2058a8 !important;
+  color: #FFFFFF !important;
+  border-color: #2058a8 !important;
   box-shadow: 0 2px 6px rgba(32, 88, 168, 0.35);
+}
+
+.scada-nav-btn.btn-active i,
+.scada-nav-btn.btn-active span {
+  color: #FFFFFF !important;
 }
 
 .scada-nav-right {
@@ -3279,5 +3293,36 @@
     gap: 0;
   }
   .d3-section { padding: 32px 20px; }
+}
+
+/* === DESIGN 3 NEON SCADA P&ID === */
+.d3-scada-screen {
+  width: 100%;
+  overflow-x: auto;
+  background: #0a0e1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.d3-glass-panel {
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+
+.d3-lcd-readout {
+  background: #000;
+  border: 1px solid rgba(0, 212, 255, 0.6);
+  color: #00ff88;
+  font-family: 'Consolas', monospace;
+  border-radius: 4px;
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.8);
+}
+
+.d3-neon-text {
+  color: #00d4ff;
+  text-shadow: 0 0 8px #00d4ff, 0 0 16px #00d4ff;
 }
 
