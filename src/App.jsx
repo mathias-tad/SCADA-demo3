@@ -3,11 +3,13 @@ import { initialScadaUsers, ORIGINAL_ROLES, isActiveLast20Mins } from './mockDat
 import ScadaTopBar from './components/ScadaTopBar';
 import ScadaDashboard from './components/ScadaDashboard';
 import AirbnbCard from './components/AirbnbCard';
+import AirbnbListView from './components/AirbnbListView';
 import AirbnbModal from './components/AirbnbModal';
 import './App.css';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('users'); // 'dashboard' | 'users'
+  const [viewMode, setViewMode] = useState('card'); // 'card' | 'list' (default card)
   const [users, setUsers] = useState(initialScadaUsers);
   const [searchName, setSearchName] = useState('');
   const [selectedRole, setSelectedRole] = useState('all');
@@ -161,10 +163,33 @@ export default function App() {
               </button>
             </div>
 
-            <button className="add-operator-pill-btn" onClick={handleAddNew}>
-              <i className="fas fa-user-plus btn-plus" style={{ fontSize: '14px' }}></i>
-              <span>Add User</span>
-            </button>
+            {/* Right side controls: View Mode Toggle & Add User */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              {/* View Mode Toggle: Cards vs List */}
+              <div className="airbnb-view-toggle">
+                <button
+                  type="button"
+                  className={`airbnb-view-btn ${viewMode === 'card' ? 'active' : ''}`}
+                  onClick={() => setViewMode('card')}
+                  title="Card Grid View (Default)"
+                >
+                  <i className="fas fa-grip-horizontal"></i> Cards
+                </button>
+                <button
+                  type="button"
+                  className={`airbnb-view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                  title="Table List View"
+                >
+                  <i className="fas fa-list-ul"></i> List
+                </button>
+              </div>
+
+              <button className="add-operator-pill-btn" onClick={handleAddNew}>
+                <i className="fas fa-user-plus btn-plus" style={{ fontSize: '14px' }}></i>
+                <span>Add User</span>
+              </button>
+            </div>
           </section>
 
           {/* Main Content Area */}
@@ -188,19 +213,31 @@ export default function App() {
               )}
             </div>
 
-            {/* 4-Column Responsive Grid */}
+            {/* Conditional Display: 4-Column Card Grid vs List Table */}
             {filteredUsers.length > 0 ? (
-              <div className="airbnb-cards-grid">
-                {filteredUsers.map(u => (
-                  <AirbnbCard
-                    key={u.userId}
-                    user={u}
-                    onOpenDetail={handleOpenDetail}
-                    onToggleFavorite={handleToggleFavorite}
-                    isFavorite={!!favorites[u.userId]}
-                  />
-                ))}
-              </div>
+              viewMode === 'card' ? (
+                <div className="airbnb-cards-grid">
+                  {filteredUsers.map(u => (
+                    <AirbnbCard
+                      key={u.userId}
+                      user={u}
+                      onOpenDetail={handleOpenDetail}
+                      onToggleFavorite={handleToggleFavorite}
+                      isFavorite={!!favorites[u.userId]}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <AirbnbListView
+                  users={filteredUsers}
+                  onOpenDetail={handleOpenDetail}
+                  onSendLink={handleSendLink}
+                  onResetPassword={handleResetPassword}
+                  onDelete={handleDelete}
+                  onToggleFavorite={handleToggleFavorite}
+                  favorites={favorites}
+                />
+              )
             ) : (
               <div className="airbnb-empty-state">
                 <div className="empty-icon">🔍</div>
